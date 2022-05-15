@@ -1,0 +1,52 @@
+﻿@model IndexViewModel
+@{
+    ViewData["Title"] = "Каталог фильмов";
+}
+
+
+<div class="row">
+    <div class="col-12">
+        <h1>Каталог фильмов</h1>
+        
+            <div class="mb-2">
+                <a asp-action="Create" asp-controller="Movie" class="btn btn-outline-primary btn-sm">Создать</a>
+            </div>
+        
+
+        @if (Model.Movies.Any())
+        {
+            @if (Model.PageViewModel.HasPreviousPage)
+            {
+                <a asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber - 1)"
+                   class="btn btn-outline-dark">
+                    <i class="glyphicon glyphicon-chevron-left"></i>
+                    Назад
+                </a>
+            }
+            @if (Model.PageViewModel.HasNextPage)
+            {
+                <a asp-action="Index"
+                   asp-route-page="@(Model.PageViewModel.PageNumber + 1)"
+                   class="btn btn-outline-dark">
+                    Вперед
+                    <i class="glyphicon glyphicon-chevron-right"></i>
+                </a>
+            }
+            <div class="list-group">
+                @foreach (var movie in Model.Movies)
+                {
+                    <div class="list-group-item">
+                        <a asp-action="Details" asp-controller="Movie" asp-route-id="@movie.Id">@movie.Title</a>
+                    </div>
+                }
+            </div>
+        }
+        else
+        {
+            <div class="alert alert-info">
+                Каталог фильмов пуст
+            </div>
+        }
+    </div>
+</div>
